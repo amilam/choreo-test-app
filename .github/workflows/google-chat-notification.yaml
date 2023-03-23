@@ -1,1 +1,17 @@
-foo
+name: Google Chat Notification
+
+on:
+  issues:
+    types: [opened]
+    # Only trigger for issues with the 'bug' label
+    tags: [bug]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Google Chat notification
+        uses: google-github-actions/chat@v1.0
+        with:
+          webhook-url: ${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}
+          message: "A new bug issue has been created! Issue link: ${{ github.event.issue.html_url }}"
